@@ -2,7 +2,9 @@ resource "aws_instance" "k8-master-expense" {
   ami           = data.aws_ami.ami_id.id
   instance_type = "t2.micro"
   vpc_security_group_ids = [ "sg-048a7cda150b9e388" ]
-
+  root_block_device {
+    volume_size = 50
+  }
   tags = merge(
     var.tags,
   {
@@ -11,14 +13,6 @@ resource "aws_instance" "k8-master-expense" {
   )
 }
 
-resource "aws_ebs_volume" "extra_for_k8" {
-  availability_zone = "us-east-1"
-  size              = 50
-
-  tags = {
-    Name = "50GiB is allocated"
-  }
-}
 
 resource "null_resource" "k8" {
   # Changes to any instance of the cluster requires re-provisioning
@@ -48,4 +42,5 @@ resource "null_resource" "k8" {
       "sudo sh /tmp/scripts.sh"
     ]
   }
+
 }
