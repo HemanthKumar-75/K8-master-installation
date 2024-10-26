@@ -3,7 +3,9 @@
 #Extend the volume of the server
 df -hT
 lsblk
-growpart /dev/xvda 4  # xvda for t2.micro for t3.micro it is nvme
+name=$(lsblk -dn -o NAME | head -n 1)
+growpart /dev/$name 4
+# growpart /dev/xvda 4  # xvda for t2.micro for t3.micro it is nvme
 lvextend -l +50%FREE /dev/RootVG/rootVol
 lvextend -l +50%FREE /dev/RootVG/varVol
 xfs_growfs /

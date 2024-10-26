@@ -1,6 +1,6 @@
 resource "aws_instance" "k8-master-expense" {
   ami           = data.aws_ami.ami_id.id
-  instance_type = "t2.micro"
+  instance_type = var.instance_type
   vpc_security_group_ids = [ "sg-048a7cda150b9e388" ]
   root_block_device {
     volume_size = 50
