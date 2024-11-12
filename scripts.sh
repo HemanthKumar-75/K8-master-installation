@@ -32,3 +32,15 @@ PLATFORM=$(uname -s)_$ARCH
 curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$PLATFORM.tar.gz"
 tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
 mv /tmp/eksctl /usr/local/bin
+
+# aws configure
+public_IP=$( curl ifconfig.me )
+scp ~/.aws/credentials user@$public_IP:~/.aws/credentials
+scp ~/.aws/config user@$public_IP:~/.aws/config
+chmod 600 ~/.aws/credentials
+chmod 600 ~/.aws/config
+
+# eks cluster creation
+git clone https://github.com/HemanthKumar-75/K8-eksctl.git
+cd K8-eksctl
+eksctl create cluster --config-file=eks.yaml
