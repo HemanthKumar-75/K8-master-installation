@@ -27,7 +27,7 @@ resource "null_resource" "k8" {
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
-    timeout = "5m"
+    timeout = "15m"
   }
 
   provisioner "file" {

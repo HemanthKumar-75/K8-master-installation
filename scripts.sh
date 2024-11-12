@@ -35,6 +35,7 @@ mv /tmp/eksctl /usr/local/bin
 
 # aws configure
 public_IP=$( curl ifconfig.me )
+mkdir -p /home/ec2-user/.aws
 scp -r C:\Users\hemanth\.aws\credentials ec2-user@$public_IP:/home/ec2-user/.aws/credentials
 scp -r C:\Users\hemanth\.aws\config ec2-user@$public_IP:/home/ec2-user/.aws/config
 chmod 600 ~/.aws/credentials
