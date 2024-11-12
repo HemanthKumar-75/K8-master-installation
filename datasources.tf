@@ -18,3 +18,17 @@ data "aws_ami" "ami_id" {
         values = ["hvm"]
     }
 }
+
+data "aws_ssm_parameter" "aws_access_key_id" {
+  name = "access-key-id"
+  with_decryption = true
+}
+
+data "aws_ssm_parameter" "aws_secret_access_key" {
+  name = "secret_access_key"
+  with_decryption = true
+}
+
+data "aws_ssm_parameter" "aws_region" {
+  name = "region"
+}
