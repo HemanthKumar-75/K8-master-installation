@@ -43,4 +43,4 @@ chmod 600 ~/.aws/config
 # eks cluster creation
 git clone https://github.com/HemanthKumar-75/K8-eksctl.git
 cd K8-eksctl
-eksctl create cluster --config-file=eks.yaml
+eksctl create cluster --config-file=eksctl.yaml
