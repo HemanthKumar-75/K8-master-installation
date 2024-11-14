@@ -33,15 +33,12 @@ curl -sLO "https://github.com/eksctl-io/eksctl/releases/latest/download/eksctl_$
 tar -xzf eksctl_$PLATFORM.tar.gz -C /tmp && rm eksctl_$PLATFORM.tar.gz
 mv /tmp/eksctl /usr/local/bin
 
-# # aws configure
-# public_IP=$( curl ifconfig.me )
-# mkdir -p /home/ec2-user/.aws
-# scp -r C:\Users\hemanth\.aws\credentials ec2-user@$public_IP:/home/ec2-user/.aws/credentials
-# scp -r C:\Users\hemanth\.aws\config ec2-user@$public_IP:/home/ec2-user/.aws/config
-# chmod 600 ~/.aws/credentials
-# chmod 600 ~/.aws/config
+# kubectx + kubens: Power tools for kubectl
+git clone https://github.com/ahmetb/kubectx /opt/kubectx
+ln -s /opt/kubectx/kubectx /usr/local/bin/kubectx
+ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 
 # eks cluster creation
 git clone https://github.com/HemanthKumar-75/K8-eksctl.git
 cd K8-eksctl
-eksctl create cluster --config-file=eksctl.yaml
+/usr/local/bin/eksctl eksctl create cluster --config-file=eksctl.yaml
