@@ -28,7 +28,7 @@ resource "null_resource" "k8" {
     type     = "ssh"
     user     = "ec2-user"
     password = "DevOps321"
-    timeout  = "15m"
+    timeout  = "5m"
   }
 
   provisioner "file" {
@@ -46,22 +46,28 @@ resource "null_resource" "k8" {
 }
 
 resource "null_resource" "aws_config" {
-  provisioner "local-exec" {
-  command = <<EOT
-      mkdir -p ~/.aws
+  
+  triggers = {
+    instance_id = aws_instance.k8-master-expense.id
+  }
 
-      # Create credentials file
-      echo "[default]" > ~/.aws/credentials
-      echo "aws_access_key_id = ${local.aws_access_key_id}" >> ~/.aws/credentials
-      echo "aws_secret_access_key = ${local.aws_secret_access_key}" >> ~/.aws/credentials
-
-      # Create config file
-      echo "[default]" > ~/.aws/config
-      echo "region = ${local.aws_region}" >> ~/.aws/config
-
-      # Set secure permissions on the AWS credentials and config files
-      chmod 600 ~/.aws/credentials
-      chmod 600 ~/.aws/config
-    EOT
+  connection {
+    host     = aws_instance.k8-master-expense.public_ip
+    type     = "ssh"
+    user     = "ec2-user"
+    password = "DevOps321"
+    timeout  = "5m"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /home/ec2-user/.aws",
+      "echo '[default]' > /home/ec2-user/.aws/credentials",
+      "echo 'aws_access_key_id = ${local.aws_access_key_id}' >> /home/ec2-user/.aws/credentials",
+      "echo 'aws_secret_access_key = ${local.aws_secret_access_key}' >> /home/ec2-user/.aws/credentials",
+      "echo '[default]' > /home/ec2-user/.aws/config",
+      "echo 'region = ${local.aws_region}' >> /home/ec2-user/.aws/config",
+      "chmod 600 /home/ec2-user/.aws/credentials",
+      "chmod 600 /home/ec2-user/.aws/config"
+    ]
   }
 }
