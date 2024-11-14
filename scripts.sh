@@ -41,4 +41,4 @@ ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 # eks cluster creation
 git clone https://github.com/HemanthKumar-75/K8-eksctl.git
 cd K8-eksctl
-/usr/local/bin/eksctl eksctl create cluster --config-file=eksctl.yaml
+# /usr/local/bin/eksctl eksctl create cluster --config-file=eksctl.yaml
