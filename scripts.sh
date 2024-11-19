@@ -40,13 +40,14 @@ ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 
 # eks cluster creation
 git clone https://github.com/HemanthKumar-75/K8-expense.git
+git clone https://github.com/HemanthKumar-75/expense-docker.git
 git clone https://github.com/HemanthKumar-75/K8-eksctl.git
 cd K8-eksctl
 # /usr/local/bin/eksctl eksctl create cluster --config-file=eksctl.yaml
 
 # ebs-csi-drivers kubectl installations
-kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.37"
+# kubectl apply -k "github.com/kubernetes-sigs/aws-ebs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-1.37"
 
 # efs-csi-drivers kubectl installations
-kubectl kustomize \
-    "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-2.1" > public-ecr-driver.yaml
+# kubectl kustomize \
+    # "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-2.1" > public-ecr-driver.yaml
