@@ -51,3 +51,6 @@ cd K8-eksctl
 # efs-csi-drivers kubectl installations
 # kubectl kustomize \
     # "github.com/kubernetes-sigs/aws-efs-csi-driver/deploy/kubernetes/overlays/stable/?ref=release-2.1" > public-ecr-driver.yaml
+
+# if kubeconfig getting error or disturbed use
+# aws eks --region us-east-1 update-kubeconfig --name expense
