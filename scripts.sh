@@ -42,7 +42,7 @@ ln -s /opt/kubectx/kubens /usr/local/bin/kubens
 git clone https://github.com/HemanthKumar-75/K8-expense.git
 git clone https://github.com/HemanthKumar-75/expense-docker.git
 git clone https://github.com/HemanthKumar-75/K8-eksctl.git
-cd K8-eksctl
+# cd K8-eksctl
 # /usr/local/bin/eksctl eksctl create cluster --config-file=eksctl.yaml
 
 # ebs-csi-drivers kubectl installations
@@ -59,3 +59,7 @@ cd K8-eksctl
 curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/main/scripts/get-helm-3
 chmod 700 get_helm.sh
 ./get_helm.sh
+export PATH=$PATH:/usr/local/bin
+echo 'export PATH=$PATH:/usr/local/bin' >> ~/.bashrc
+source ~/.bashrc
+helm version

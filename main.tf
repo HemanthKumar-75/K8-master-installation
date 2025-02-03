@@ -1,7 +1,7 @@
 resource "aws_instance" "k8-master-expense" {
   ami                    = data.aws_ami.ami_id.id
   instance_type          = var.instance_type
-  vpc_security_group_ids = ["sg-048a7cda150b9e388"]
+  vpc_security_group_ids = ["sg-069821eb327530fb9"]
   root_block_device {
     volume_size = 50
   }
@@ -13,6 +13,32 @@ resource "aws_instance" "k8-master-expense" {
   )
 }
 
+resource "null_resource" "aws_config" {
+  
+  triggers = {
+    instance_id = aws_instance.k8-master-expense.id
+  }
+
+  connection {
+    host     = aws_instance.k8-master-expense.public_ip
+    type     = "ssh"
+    user     = "ec2-user"
+    password = "DevOps321"
+    timeout  = "5m"
+  }
+  provisioner "remote-exec" {
+    inline = [
+      "mkdir -p /home/ec2-user/.aws",
+      "echo '[default]' > /home/ec2-user/.aws/credentials",
+      "echo 'aws_access_key_id = ${local.aws_access_key_id}' >> /home/ec2-user/.aws/credentials",
+      "echo 'aws_secret_access_key = ${local.aws_secret_access_key}' >> /home/ec2-user/.aws/credentials",
+      "echo '[default]' > /home/ec2-user/.aws/config",
+      "echo 'region = ${local.aws_region}' >> /home/ec2-user/.aws/config",
+      "chmod 600 /home/ec2-user/.aws/credentials",
+      "chmod 600 /home/ec2-user/.aws/config"
+    ]
+  }
+}
 
 resource "null_resource" "k8" {
   # Changes to any instance of the cluster requires re-provisioning
@@ -41,33 +67,6 @@ resource "null_resource" "k8" {
     inline = [
       "chmod +x /tmp/scripts.sh",
       "sudo sh /tmp/scripts.sh"
-    ]
-  }
-}
-
-resource "null_resource" "aws_config" {
-  
-  triggers = {
-    instance_id = aws_instance.k8-master-expense.id
-  }
-
-  connection {
-    host     = aws_instance.k8-master-expense.public_ip
-    type     = "ssh"
-    user     = "ec2-user"
-    password = "DevOps321"
-    timeout  = "5m"
-  }
-  provisioner "remote-exec" {
-    inline = [
-      "mkdir -p /home/ec2-user/.aws",
-      "echo '[default]' > /home/ec2-user/.aws/credentials",
-      "echo 'aws_access_key_id = ${local.aws_access_key_id}' >> /home/ec2-user/.aws/credentials",
-      "echo 'aws_secret_access_key = ${local.aws_secret_access_key}' >> /home/ec2-user/.aws/credentials",
-      "echo '[default]' > /home/ec2-user/.aws/config",
-      "echo 'region = ${local.aws_region}' >> /home/ec2-user/.aws/config",
-      "chmod 600 /home/ec2-user/.aws/credentials",
-      "chmod 600 /home/ec2-user/.aws/config"
     ]
   }
 }
